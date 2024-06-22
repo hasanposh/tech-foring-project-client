@@ -13,16 +13,16 @@ import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
 import { Button } from "@mui/material";
+import useAuth from "../../../hooks/useAuth";
 
 const pages = [
   { title: "Jobs", path: "/jobs" },
   { title: "Add Jobs", path: "/add-jobs" },
   { title: "My Jobs", path: "/my-jobs" },
 ];
-const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
 const Navbar = () => {
-  const user = false;
+  const { user, logOut } = useAuth();
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
@@ -40,6 +40,16 @@ const Navbar = () => {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+
+  const handleLogout = () => {
+    logOut();
+    handleCloseUserMenu();
+  };
+
+  const settings = [
+    { title: "Profile", action: handleCloseUserMenu },
+    { title: "Logout", action: handleLogout },
+  ];
 
   return (
     <AppBar position="static" sx={{ backgroundColor: "#182f59" }}>
@@ -99,7 +109,9 @@ const Navbar = () => {
                   <Typography textAlign="center">
                     <NavLink
                       to={page.path}
-                      style={{ textDecoration: "none", color: "inherit" }}
+                      className={({ isActive }) =>
+                        isActive ? "text-blue-400 border-b border-blue-400" : ""
+                      }
                     >
                       {page.title}
                     </NavLink>
@@ -127,27 +139,28 @@ const Navbar = () => {
           >
             LOGO
           </Typography>
-          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+          <Box
+            sx={{ flexGrow: 1, gap: 5, display: { xs: "none", md: "flex" } }}
+          >
             {pages.map((page) => (
               <NavLink
                 key={page.title}
                 to={page.path}
-                style={{ textDecoration: "none", color: "white" }}
-                activeClassName="active"
                 onClick={handleCloseNavMenu}
+                className={({ isActive }) =>
+                  isActive ? "text-blue-400 border-b border-blue-400" : ""
+                }
               >
-                <Button sx={{ my: 2, color: "white", display: "block" }}>
-                  {page.title}
-                </Button>
+                {page.title}
               </NavLink>
             ))}
           </Box>
 
           {user ? (
             <Box sx={{ flexGrow: 0 }}>
-              <Tooltip title="Open settings">
+              <Tooltip title={user?.displayName}>
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                  <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                  <Avatar alt="Remy Sharp" src={user?.photoURL} />
                 </IconButton>
               </Tooltip>
               <Menu
@@ -167,15 +180,18 @@ const Navbar = () => {
                 onClose={handleCloseUserMenu}
               >
                 {settings.map((setting) => (
-                  <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                    <Typography textAlign="center">{setting}</Typography>
+                  <MenuItem
+                    key={setting.title}
+                    onClick={setting.action}
+                  >
+                    <Typography textAlign="center">{setting.title}</Typography>
                   </MenuItem>
                 ))}
               </Menu>
             </Box>
           ) : (
             <Button variant="contained">
-              <Link to={"/login"}>Login</Link>
+              <Link to={"login"}>Login</Link>
             </Button>
           )}
         </Toolbar>

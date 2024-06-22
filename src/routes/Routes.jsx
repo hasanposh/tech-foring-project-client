@@ -4,6 +4,9 @@ import Jobs from "../pages/Jobs/Jobs";
 import AddJobs from "../pages/AddJobs/AddJobs";
 import MyJobs from "../pages/MyJobs/MyJobs";
 import ErrorPage from "../components/ErrorPage/ErrorPage";
+import Login from "../pages/Login/Login";
+import Register from "../pages/Register/Register";
+import PrivateRoute from "./PrivateRoute";
 
 export const router = createBrowserRouter([
   {
@@ -11,9 +14,32 @@ export const router = createBrowserRouter([
     element: <Main />,
     errorElement: <ErrorPage />,
     children: [
-      { path: "jobs", element: <Jobs /> },
-      { path: "add-jobs", element: <AddJobs /> },
-      { path: "my-jobs", element: <MyJobs /> },
+      {
+        path: "jobs",
+        element: (
+          <PrivateRoute>
+            <Jobs />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "add-jobs",
+        element: (
+          <PrivateRoute>
+            <AddJobs />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "my-jobs",
+        element: (
+          <PrivateRoute>
+            <MyJobs />
+          </PrivateRoute>
+        ),
+      },
+      { path: "login", element: <Login /> },
+      { path: "register", element: <Register /> },
     ],
   },
 ]);
