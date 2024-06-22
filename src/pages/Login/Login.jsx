@@ -22,6 +22,7 @@ const Login = () => {
       console.log(err);
       toast.error(err.message);
     }
+    
   };
   return (
     <div className="flex min-h-[calc(100vh-64px)] flex-col w-full items-center justify-center">

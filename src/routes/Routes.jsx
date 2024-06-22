@@ -1,12 +1,13 @@
 import { createBrowserRouter } from "react-router-dom";
 import Main from "../layout/Main";
-import Jobs from "../pages/Jobs/Jobs";
+import Jobs from "../pages/Home/Home/Home";
 import AddJobs from "../pages/AddJobs/AddJobs";
 import MyJobs from "../pages/MyJobs/MyJobs";
 import ErrorPage from "../components/ErrorPage/ErrorPage";
 import Login from "../pages/Login/Login";
 import Register from "../pages/Register/Register";
 import PrivateRoute from "./PrivateRoute";
+import Home from "../pages/Home/Home/Home";
 
 export const router = createBrowserRouter([
   {
@@ -15,10 +16,10 @@ export const router = createBrowserRouter([
     errorElement: <ErrorPage />,
     children: [
       {
-        path: "jobs",
+        index: true,
         element: (
           <PrivateRoute>
-            <Jobs />
+            <Home />
           </PrivateRoute>
         ),
       },

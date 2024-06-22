@@ -16,7 +16,7 @@ import { Button } from "@mui/material";
 import useAuth from "../../../hooks/useAuth";
 
 const pages = [
-  { title: "Jobs", path: "/jobs" },
+  { title: "Home", path: "/" },
   { title: "Add Jobs", path: "/add-jobs" },
   { title: "My Jobs", path: "/my-jobs" },
 ];
@@ -104,7 +104,7 @@ const Navbar = () => {
                 display: { xs: "block", md: "none" },
               }}
             >
-              {pages.map((page) => (
+              {user && pages.map((page) => (
                 <MenuItem key={page.title} onClick={handleCloseNavMenu}>
                   <Typography textAlign="center">
                     <NavLink
@@ -142,7 +142,7 @@ const Navbar = () => {
           <Box
             sx={{ flexGrow: 1, gap: 5, display: { xs: "none", md: "flex" } }}
           >
-            {pages.map((page) => (
+            {user &&  pages.map((page) => (
               <NavLink
                 key={page.title}
                 to={page.path}
