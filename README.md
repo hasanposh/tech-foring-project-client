@@ -18,6 +18,12 @@ Before you begin, ensure you have met the following requirements:
    cd tech-foring-project-client
 
    
+The project uses environment variables to manage configuration. Create a .env.local file in the root directory and add the following variables:
+
+- PORT=3000
+- MONGO_URI=your_mongodb_connection_string
+- JWT_SECRET=your_jwt_secret
+
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
